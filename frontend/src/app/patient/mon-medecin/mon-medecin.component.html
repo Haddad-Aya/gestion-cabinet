@@ -1,0 +1,121 @@
+<div class="dashboard">
+    <div class="left">
+      
+      <div class="navigation">
+        <div class="wrapper2">
+          <app-sidebar-patient></app-sidebar-patient>
+        </div>
+      </div>
+    </div>
+    <div class="right-side">
+      <div class="right-header">
+        <app-navbar-patient></app-navbar-patient>
+        <hr class="new-hr">
+        <div class="right-bottom">
+        </div>
+      </div>
+      <div class="right-body">
+        <div class="message">
+          <div class="mes-date">
+            <div class="container">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="main-box clearfix">
+                    <div class="table-responsive">
+                      <section class="intro">
+                        <div class="bg-image h-100" >
+                          <div class="mask d-flex align-items-center h-100">
+                            <div class="container">
+                              <div class="row justify-content-center">
+                                <div class="col-12">
+                                  <div class="card">
+                                    <div class="card-body">
+                                      <div class="table-responsive">
+                                        <table class="table table-hover mb-0">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Nom et prenom</th>
+                                              <th scope="col">Telephone</th>
+                                              <th scope="col">Email</th>
+                                              <th scope="col">Nom cabinet</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr>
+                                              <th scope="row">{{medecin.nom}} {{medecin.prenom}}</th>
+                                              <td>
+                                                <span class="text-danger">
+                                                  <i class="fas fa-caret-down me-1"></i><span>{{medecin.telephone}}</span>
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <span class="text-success">
+                                                  <i class="fas fa-caret-up me-1"></i><span>{{medecin.email}}</span>
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <span class="text-success">
+                                                  <i class="fas fa-caret-up me-1"></i><span>{{medecin.nomCabinet}}</span>
+                                                </span>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                        <h6 style="text-align: center; margin-top: 25px;">Horaire de travail</h6>
+                                        <table class="table table-hover mb-0">
+                                          <thead>
+                                            <tr>
+                                              <th scope="col">Jour</th>
+                                              <th scope="col">Heure debut premier S</th>
+                                              <th scope="col">Heure fin premier S</th>
+                                              <th scope="col">Heure debut deuxième S</th>
+                                              <th scope="col">Heure fin deuxième S</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody *ngFor="let h of horaires">
+                                            <tr>
+                                              <th scope="row">{{h.jour}}</th>
+                                              <td>
+                                                <span class="text-danger">
+                                                  <i class="fas fa-caret-down me-1"></i><span>{{h.dateDebutPremS}}</span>
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <span class="text-success">
+                                                  <i class="fas fa-caret-up me-1"></i><span>{{h.dateFinPremS}}</span>
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <span class="text-success">
+                                                  <i class="fas fa-caret-up me-1"></i><span>{{h.dateDebutDeuS}}</span>
+                                                </span>
+                                              </td>
+                                              <td>
+                                                <span class="text-success">
+                                                  <i class="fas fa-caret-up me-1"></i><span>{{h.dateFinDeuS}}</span>
+                                                </span>
+                                              </td>
+                                             
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </section>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              </div>
+              </div>
+            
+    
+          </div>
+        </div>
+      </div>

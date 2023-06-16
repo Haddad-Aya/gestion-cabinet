@@ -1,0 +1,24 @@
+<body>
+    <div class="container">
+      <div class="title">Trouver votre compte</div>
+      <div class="content"><br>
+        <span>Veuilliez entrer votre adresse e-mail pour rechercher votre compte</span>
+            <form [formGroup]="form">
+              <div class="alert alert-danger" role="alert" *ngIf="verifMail==true"><strong>erreur !! </strong> Ce mail n'existe pas</div>
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Email *</span>
+              <input type="email" class="form-control" placeholder="Email" formControlName="email" (change)="mail()">
+              <div style="color: red;" *ngIf="champsMail==true">*Champs obligatoire</div>
+              <div style="color: red;" *ngIf="formaMail==true">*Veuillez saisir un mail</div>
+            </div>
+            <!-- Submit button -->
+            <div class="modal-footer">
+                <button type="button" c class="btn btn-secondary" data-dismiss="modal" routerLink="/login">Annuler</button>
+                <button type="button" class="btn btn-primary"  (click)="OnSubmit()" >Rechercher</button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>

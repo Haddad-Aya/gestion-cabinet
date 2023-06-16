@@ -1,0 +1,30 @@
+<body>
+  <div class="container">
+    <div class="title">Connexion</div>
+    <div class="content">
+          <form [formGroup]="form" (ngSubmit)="OnSubmit()">
+        <div class="user-details">
+          <div class="input-box">
+            <span class="details">Email *</span>
+            <input type="email" class="form-control" placeholder="Email" formControlName="email">
+          </div>
+          <div class="input-box">
+            <span class="details">Mot de passe *</span>
+            <input type="password" id="form3Example4" class="form-control" placeholder="Mot de passe" formControlName="motDePasse">
+          </div>
+          <!-- Submit button -->
+          <button type="submit" class="btn btn-primary btn-block mb-4">
+            Se connecter
+          </button>
+
+          <!-- Register buttons -->
+          <div class="text-center" style="margin-left: 95px;">
+            <a class="small text-muted" routerLink="/MdpOublier">Mot de passe oublié ?</a>
+                <p class="mb-5 pb-lg-2" style="color: #393f81;">Vous n'avez pas un compte? <a routerLink="/register"
+                    style="color: #393f81;">Register here</a></p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>

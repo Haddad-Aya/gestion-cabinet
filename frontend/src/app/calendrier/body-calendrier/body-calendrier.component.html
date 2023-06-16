@@ -1,0 +1,50 @@
+<div class='demo-app'>
+  <div style="text-align:center;padding-top: 10px;"><button type="button" data-toggle="modal" data-target="#rendezVous"class="btn btn-primary" >add event</button></div>
+    <div class='demo-app-main'>
+      <full-calendar *ngIf='calendarVisible' [options]='calendarOptions'>
+        <ng-template #eventContent let-arg>
+        <button class="btn btn-Link" routerLink="/consultation/28">
+          <b>{{ arg.timeText }}</b>
+          <i>{{ arg.event.title }}</i>
+        </button>
+        </ng-template>
+      </full-calendar>
+    </div>
+  </div>
+
+  <div class="modal fade" id="rendezVous" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Rendez-vous</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formRendezVous">
+            <div class="alert alert-danger" role="alert" *ngIf="erreurFormulaire==true"><strong>erreur !! </strong> Formulaire invalid</div>
+            <div class="alert alert-success" role="alert" *ngIf="formulaireValid==true"><strong>BIEN </strong> Rendez vous</div>
+            <div class="form-group">
+              <label for="">Jour</label>
+              <input type="date" class="form-control" name="jour" placeholder="Taper le jour de rendez-vous" formControlName="dateRendezVous">
+              <div style="color: red;" *ngIf="verifDateRendezVous==true">*Champs obligatoire</div>
+            </div>
+            <div class="form-group">
+              <label for="">Heure debut</label>
+              <select class="form-select" (change)="getSelectedHeureDebut($event)">
+                <option [disabled]="true">Choisir</option>
+                <option *ngFor="let f of vDateDebut" [value]="f.heureD">{{f.heureD}}</option>
+              </select>
+              <div style="color: red;" *ngIf="verifHeureDebut==true">*Champs obligatoire</div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-primary" (click)="ajouterRendezVous()">Valider</button>
+        </div>
+      </div>
+    </div>
+  </div>
+

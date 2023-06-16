@@ -1,0 +1,33 @@
+<body>
+    <div class="container">
+      <div class="title">Nouveau mot de passe</div>
+      <div class="content">
+        <div class="alert alert-success" role="alert" *ngIf="verifModifier==true"><strong>BIEN </strong> Le compte est modifier</div>
+        <div class="alert alert-danger" role="alert" *ngIf="verifMail==true"><strong>erreur !! </strong> Email incorrect</div>
+            <form [formGroup]="updateForm">
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Email *</span>
+              <input type="email" class="form-control" placeholder="Email" formControlName="email">
+            </div>
+            <div class="input-box">
+              <span class="details">Nouveau mot de passe *</span>
+              <input type="password" id="form3Example4" class="form-control" placeholder="Nouveau mot de passe" formControlName="motDePasse" (change)="motDepassValidation()">
+              <div style="color: red;" *ngIf="verifMotDePasse==true">*Champs obligatoire</div>
+                  <div style="color: red;" *ngIf="longMdp==true">*mot de passe très court</div>
+                  <div style="color: red;" *ngIf="contenuMdp==true">*mot de passe ne doit pas continir votre nom ou prenom</div>
+            </div>
+            <div class="input-box">
+                <span class="details">Répeter mot de passe *</span>
+                <input type="password" id="form3Example4" class="form-control" placeholder="Répeter mot de passe" #confirmPassword>
+                <div style="color: red;" *ngIf="verifConfirmPassword==true">*Champs obligatoire</div>
+              </div>
+            <!-- Submit button -->
+            <button type="submit" class="btn btn-primary btn-block mb-4" (click)="modifierMdp()">
+              Se connecter
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>

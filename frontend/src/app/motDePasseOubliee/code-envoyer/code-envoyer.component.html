@@ -1,0 +1,22 @@
+<body>
+    <div class="container">
+      <div class=""><h5>Nous vous enverrons un code à votre adresse e-mail</h5></div><hr>
+      <div class="content"><br>
+            <form>
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Nous pouvons envoyer un code de connexion à 
+             <!--  <figure><img src="../assets/img/docteur.png" style="max-height: 50px;margin-left:80px;"><figcaption>An elephant at sunset</figcaption></figure> --> 
+                <br><u style="margin-left: 15px; color: gray;">{{email}}</u>
+              </span>
+            </div>
+            <!-- Submit button -->
+            <div class="modal-footer" >
+                <a routerLink="/login" style="color: black;">se connecter avec le mot de passe</a>
+                <button type="button" class="btn btn-primary" style="margin-left: 160px;" (click)="envoiCode()">Continuer</button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>

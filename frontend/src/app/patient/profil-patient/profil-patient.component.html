@@ -1,0 +1,200 @@
+<div class="dashboard">
+  <div class="left">
+
+    <div class="navigation">
+      <div class="wrapper2">
+        <app-sidebar-patient></app-sidebar-patient>
+      </div>
+    </div>
+  </div>
+  <div class="right-side">
+    <div class="right-header">
+      <app-navbar-patient></app-navbar-patient>
+      <hr class="new-hr">
+      <div class="right-bottom">
+      </div>
+    </div>
+    <span><a routerLink="/dashboardHomePatient" style="text-decoration: none;">Dashboard </a>/ <a routerLink="/profilPatient"
+        style="text-decoration: none;"> Profil</a></span>
+    <div class="right-body">
+      <div class="message">
+        <div class="mes-date">
+          <div class="title">
+            <div class="title-icons">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12">
+                    <!-- Page title -->
+                    <div class="my-2">
+                      <h3>Votre profil</h3>
+                      <hr>
+                    </div>
+
+                    <!-- Form START -->
+                    <form class="file-upload" [formGroup]="coordonnee">
+                      <div class="alert alert-danger" role="alert" *ngIf="erreurModification==true">Problème
+                        modification</div>
+                      <div class="alert alert-success" role="alert" *ngIf="resultModification==true">Modification
+                        validée</div>
+                      <div class="row mb-5 gx-5">
+                        <!-- Contact detail -->
+                        <div class="col-xxl-8 mb-5 mb-xxl-0">
+                          <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                              <h4 class="mb-4 mt-0">Contact</h4>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Nom *</label>
+                                <input type="text" class="form-control" placeholder="" aria-label="First name"
+                                  formControlName="nom">
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Prenom *</label>
+                                <input type="text" class="form-control" placeholder="" aria-label="Last name"
+                                  formControlName="prenom">
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">numéro telephone *</label>
+                                <input type="tel" class="form-control" placeholder="" aria-label="Phone number"
+                                  formControlName="telephone">
+                              </div>
+                              <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">E-mail *</label>
+                                <input type="email" class="form-control" id="inputEmail4" formControlName="email">
+                              </div>
+                              <div class="col-md-6">
+                                <label for="inputEmail4" class="form-label">Adresse *</label>
+                                <input type="text" class="form-control" id="inputEmail4" formControlName="adr">
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label">Code postal *</label>
+                                <input type="number" class="form-control" placeholder="" formControlName="codePostal">
+                              </div>
+                            </div> <!-- Row END -->
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="row mb-5 gx-5">
+                        <!-- Détail personnel -->
+                        <div class="col-xxl-8 mb-5 mb-xxl-0">
+                          <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                              <h4 class="mb-4 mt-0">Détail personnel</h4>
+
+                              <div class="col-md-6">
+                                <fieldset class="" id="group3">
+                                    <label class="form-label">Sexe *</label>
+                                    <div class="col-sm-10">
+                                      <div class="form-check" style="margin-top: 6px;">
+                                        <span *ngIf="sexe == 'H' "><input class="form-check-input"  checked type="radio" name="group3" id="s1" value="H" (change)="getSelectedSexe($event)"></span>
+                                        <span *ngIf="sexe == 'F' "><input class="form-check-input" type="radio" name="group3" id="s1" value="F" (change)="getSelectedSexe($event)"></span>
+                                        <label class="form-check-label" for="s1" >
+                                          Homme
+                                        </label>
+                                        <span style="margin-left: 100px;">
+                                          <span *ngIf="sexe == 'F' "><input class="form-check-input" checked  type="radio" name="group3" id="s2" value="F" (change)="getSelectedSexe($event)"></span>
+                                        <span *ngIf="sexe == 'H' "><input class="form-check-input" type="radio" name="group3" id="s2" value="H" (change)="getSelectedSexe($event)"></span>
+                                        <label class="form-check-label" for="s2">
+                                          Femme
+                                        </label>
+                                      </span>
+                                     
+                                    </div>
+                                  </div>
+                                </fieldset>
+                              </div>
+
+                              <div class="col-md-6">
+                                <label class="form-label">Date de naissance *</label>
+                                <input type="Date" class="form-control" placeholder="" formControlName="dateNaissance">
+                              </div>
+                              <div class="col-md-6">
+                                <fieldset class="" id="group1">
+                                  <div class="row">
+                                    <label class="form-label">Civilité *</label>
+                                    <div class="col-sm-10">
+                                      <div class="form-check" style="margin-top: 6px;">
+                                        <span *ngIf="civilite == 'MARIEE' "><input class="form-check-input" checked type="radio" name="group1" id="ma" value="MARIEE"  (change)="getSelectedCivilite($event)"></span>
+                                        <span *ngIf="civilite== 'CELEBATAIRE' "><input class="form-check-input" type="radio" name="group1" id="ma" value="MARIEE"  (change)="getSelectedCivilite($event)"></span>
+                                        <label class="form-check-label" for="ma">
+                                          Marié
+                                        </label>
+                                        <span style="margin-left: 116px;">
+                                          <span *ngIf="civilite == 'CELEBATAIRE' "><input class="form-check-input" checked type="radio" name="group1" id="celeb" value="CELEBATAIRE" (change)="getSelectedCivilite($event)" ></span>
+                                          <span *ngIf="civilite == 'MARIEE' "><input class="form-check-input" type="radio" name="group1" id="celeb" value="CELEBATAIRE" (change)="getSelectedCivilite($event)" ></span>
+                                        <label class="form-check-label" for="celeb">
+                                          Celebataire
+                                        </label>
+                                      </span> 
+                                      </div>
+                                    </div>
+                                  </div>
+                                </fieldset>
+                              </div>
+                              <div class="col-md-6">
+                                <label class="form-label">ID cnam *</label>
+                                <input type="text" class="form-control" placeholder="ID cnam" formControlName="idCnam">
+                              </div>
+                              <div class="gap-6 d-md-flex justify-content-md-center" style="padding-top: 35px;">
+                                <button type="button" class="btn btn-primary " >Confirmer les
+                                  modifications</button>
+                              </div>
+                            </div> <!-- Row END -->
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row mb-5 gx-5">
+                      <!-- change password -->
+                      <button class="btn btn-link" (click)="changer()" *ngIf="changement==false">Changer mot de
+                        passe</button>
+                      <div class="col-xxl-6" *ngIf="changement==true">
+                        <form [formGroup]="mdpForm">
+                          <div class="alert alert-success" role="alert" *ngIf="resultModificationMdp==true">Modification
+                            validée</div>
+                          <div class="alert alert-danger" role="alert" *ngIf="egal==true"><strong>erreur !! </strong>
+                            Verifier votre mot de passe</div>
+                          <div class="bg-secondary-soft px-4 py-5 rounded">
+                            <div class="row g-3">
+                              <h4 class="my-4">Changer mot de passe</h4>
+                              <!-- New password -->
+                              <div class="col-md-6">
+                                <label for="exampleInputPassword2" class="form-label">Nouveau mot de passe *</label>
+                                <input type="password" class="form-control" id="exampleInputPassword2"
+                                  formControlName="motDePasse" (change)="motDepassValidation()">
+                                <div style="color: red;" *ngIf="verifMotDePasse==true">*Champs obligatoire</div>
+                                <div style="color: red;" *ngIf="longMdp==true">*mot de passe très court</div>
+                                <div style="color: red;" *ngIf="contenuMdp==true">*mot de passe ne doit pas continir
+                                  votre nom ou prenom</div>
+                              </div>
+                              <!-- Confirm password -->
+                              <div class="col-md-6">
+                                <label for="exampleInputPassword3" class="form-label">Confirmer mot de passe *</label>
+                                <input type="password" #confirmPassword class="form-control" id="exampleInputPassword3">
+                                <div style="color: red;" *ngIf="verifConfirmPassword==true">*Champs obligatoire</div>
+                              </div>
+                              <div class="gap-3 d-md-flex justify-content-md-end text-center">
+                                <button type="button" class="btn btn-primary" (click)="modifierMdp()">Modifier mot de
+                                  passe</button>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div> <!-- Row END -->
+                    <!-- Form END -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>

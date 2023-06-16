@@ -1,0 +1,165 @@
+<div id="pdfDossier">
+<i><h2 style="margin-left: 70px;margin-top: 20px;" *ngIf="patient.length != 0"> Dossier médical de <u style="color: rgb(68, 65, 60);">{{nomPatient}} </u></h2></i>
+<table class="table user-list" style="margin-top: 50px;" *ngIf="patient.length != 0">
+    <thead>
+      <tr>
+        <th class="text-center"><span>Numéro dossier</span></th>
+        <th class="text-center"><span>Nom et prénom</span></th>
+        <th class="text-center"><span>Date naissance</span></th>
+        <th class="text-center"><span>Email</span></th>
+        <th class="text-center"><span>numéro téléphone</span></th>
+        <th class="text-center"><span>Adresse</span></th>
+        <th class="text-center"><span>Code postal</span></th>
+        <th class="text-center"><span>ID cnss</span></th>
+        <th class="text-center"><span>Sexe</span></th>
+        <th class="text-center"><span>Civilité</span></th>
+      </tr>
+    </thead>
+  <tbody *ngFor="let p of patient">
+    <tr>
+        <td class="text-center">
+            <span class="label label-default">{{p.id}}</span>
+          </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.nom}} {{p.prenom}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.dateNaissance}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.email}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.telephone}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.adr}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.codePostal}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.idCnam}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.sexe}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{p.civilite}}</span>
+      </td>
+    </tr>
+  </tbody>
+  </table>
+
+  <table class="table user-list" style="margin-top: 50px;" *ngIf="dossier.length != 0">
+    <thead>
+      <tr>
+        <th class="text-center"><span>Numéro consultation</span></th>
+        <th class="text-center"><span>Date</span></th>
+        <th class="text-center"><span>Etat paiment</span></th>
+        <th class="text-center"><span>Prix</span></th>
+        <th class="text-center"><span>Type consultation</span></th>
+        <th class="text-center"><span>Traitements</span></th>
+        <th class="text-center"><span>Fichiers</span></th>
+      </tr>
+    </thead>
+  <tbody *ngFor="let d of dossier let i=index">
+    <tr>
+        <td class="text-center">
+            <span class="label label-default">{{i+1}}</span>
+          </td>
+        <td class="text-center">
+            <span class="label label-default">{{d.dateConsultation}}</span>
+          </td>
+      <td class="text-center">
+        <span class="label label-default">{{d.paiment}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{d.prix}}</span>
+      </td>
+      <td class="text-center">
+        <span class="label label-default">{{d.typeConsultation}}</span>
+      </td>
+      <td class="text-left" *ngIf="d.traitements.length == 0">
+        <span class="label label-default">Aucun traitement donnée</span>
+      </td>
+      <td class="text-left" *ngIf="d.traitements.length != 0">
+        <span class="label label-default" *ngFor="let t of d.traitements let j=index"><b><u>{{j+1}}</u><br> Nom traitement : </b>{{t.nom}}<br><b> Quantité : </b>{{t.quantite}} <br><b>effet : </b>{{t.effet}}<br><b>Nombre de fois : </b>{{t.nbrFoisParJour}}<hr></span>
+      </td>
+      <td class="text-center" *ngIf="d.fichiers.length == 0">
+        <span class="label label-default">Aucun fichier donnée</span> 
+      </td>
+      <td class="text-center" *ngIf="d.fichiers.length != 0">
+        <span class="label label-default" *ngFor="let f of d.fichiers let u=index"><b><u>{{u+1}}</u><br>Titre : </b>{{f.titre}}<br><img src="{{f.donnee}}"><hr></span> 
+      </td>
+    </tr>
+  </tbody>
+  </table>
+  <h3 *ngIf="dossier.length == 0 && patient.length != 0" style="text-align: center; margin-top: 200px;">Dossier de <span style="color: rgb(82, 73, 65);">{{nomPatient}}</span> est vide</h3>
+  <h3 *ngIf="patient.length == 0" style="text-align: center; margin-top: 200px;">Dossier non disponible</h3>
+</div>
+  <div style="text-align: center;"><button class="btn btn-link" style="font-size: 30px; margin-top: 70px;" (click)="downloadAsPDF()">Télécharger <i class="bi bi-download"></i></button></div>
+<!--
+<form>
+    <div class="form-group row">
+      <label for="inputEmail3" class="col-sm-2 col-form-label">Nom</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="" placeholder="Nom" formControlName="nom">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Prenom</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="" placeholder="Prenom" formControlName="prenom">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Email</label>
+      <div class="col-sm-10">
+        <input type="email" class="form-control" id="" placeholder="Email" formControlName="email">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Telephone</label>
+      <div class="col-sm-10">
+        <input type="tel" class="form-control" id="" placeholder="Telephone" formControlName="telephone">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Adresse</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="" placeholder="Adresse" formControlName="adr">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Code Postal</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="" placeholder="Code Postal" formControlName="codePostal">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Date naissance</label>
+      <div class="col-sm-10">
+        <input type="date" class="form-control" id="" placeholder="Date naissance" formControlName="dateNaissance" >
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">ID CNSS</label>
+      <div class="col-sm-10">
+        <input type="number" class="form-control" id="" placeholder="ID CNSS" formControlName="idCnam">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Sexe</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="" placeholder="Sexe" formControlName="sexe">
+      </div>
+    </div>
+    <div class="form-group row">
+      <label for="inputPassword3" class="col-sm-2 col-form-label">Civilité</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="" placeholder="Civilité" formControlName="civilite">
+      </div>
+    </div>
+  </form>
+-->

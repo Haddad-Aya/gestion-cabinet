@@ -1,0 +1,131 @@
+<div class="dashboard">
+  <div class="left">
+    
+    <div class="navigation">
+      <div class="wrapper2">
+        <app-sidebar-patient></app-sidebar-patient>
+      </div>
+    </div>
+  </div>
+  <div class="right-side">
+    <div class="right-header">
+      <app-navbar-patient></app-navbar-patient>
+      <hr class="new-hr">
+      <div class="right-bottom">
+      </div>
+    </div>
+    <div class="right-body">
+      <div class="message">
+        <div class="mes-date">
+          <div class="container">
+            <div class="row">
+              <div class="col-lg-12">
+
+                    <div id="pdfDossier">
+                      <i><h2 style="margin-left: 70px;margin-top: 20px;" *ngIf="patient.length != 0"> Dossier médical de <u style="color: rgb(68, 65, 60);">{{nomPatient}} </u></h2></i>
+                      <table class="table user-list" style="margin-top: 50px;" *ngIf="patient.length != 0">
+                          <thead>
+                            <tr>
+                              <th class="text-center"><span>Numéro dossier</span></th>
+                              <th class="text-center"><span>Nom et prénom</span></th>
+                              <th class="text-center"><span>Date naissance</span></th>
+                              <th class="text-center"><span>Email</span></th>
+                              <th class="text-center"><span>numéro téléphone</span></th>
+                              <th class="text-center"><span>Adresse</span></th>
+                              <th class="text-center"><span>Code postal</span></th>
+                              <th class="text-center"><span>ID cnss</span></th>
+                              <th class="text-center"><span>Sexe</span></th>
+                              <th class="text-center"><span>Civilité</span></th>
+                            </tr>
+                          </thead>
+                        <tbody *ngFor="let p of patient">
+                          <tr>
+                              <td class="text-center">
+                                  <span class="label label-default">{{p.id}}</span>
+                                </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.nom}} {{p.prenom}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.dateNaissance}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.email}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.telephone}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.adr}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.codePostal}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.idCnam}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.sexe}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{p.civilite}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                        </table>
+                      
+                        <table class="table user-list" style="margin-top: 50px;" *ngIf="dossier.length != 0">
+                          <thead>
+                            <tr>
+                              <th class="text-center"><span>Numéro consultation</span></th>
+                              <th class="text-center"><span>Date</span></th>
+                              <th class="text-center"><span>Etat paiment</span></th>
+                              <th class="text-center"><span>Prix</span></th>
+                              <th class="text-center"><span>Type consultation</span></th>
+                              <th class="text-center"><span>Traitements</span></th>
+                              <th class="text-center"><span>Fichiers</span></th>
+                            </tr>
+                          </thead>
+                        <tbody *ngFor="let d of dossier let i=index">
+                          <tr>
+                              <td class="text-center">
+                                  <span class="label label-default">{{i+1}}</span>
+                                </td>
+                              <td class="text-center">
+                                  <span class="label label-default">{{d.dateConsultation}}</span>
+                                </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{d.paiment}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{d.prix}}</span>
+                            </td>
+                            <td class="text-center">
+                              <span class="label label-default">{{d.typeConsultation}}</span>
+                            </td>
+                            <td class="text-left" *ngIf="d.traitements.length == 0">
+                              <span class="label label-default">Aucun traitement donnée</span>
+                            </td>
+                            <td class="text-left" *ngIf="d.traitements.length != 0">
+                              <span class="label label-default" *ngFor="let t of d.traitements let j=index"><b><u>{{j+1}}</u><br> Nom traitement : </b>{{t.nom}}<br><b> Quantité : </b>{{t.quantite}} <br><b>effet : </b>{{t.effet}}<br><b>Nombre de fois : </b>{{t.nbrFoisParJour}}<hr></span>
+                            </td>
+                            <td class="text-center" *ngIf="d.fichiers.length == 0">
+                              <span class="label label-default">Aucun fichier donnée</span> 
+                            </td>
+                            <td class="text-center" *ngIf="d.fichiers.length != 0">
+                              <span class="label label-default" *ngFor="let f of d.fichiers let u=index"><b><u>{{u+1}}</u><br>Titre : </b>{{f.titre}}<br><img src="{{f.donnee}}"><hr></span> 
+                            </td>
+                          </tr>
+                        </tbody>
+                        </table>
+                        <h3 *ngIf="dossier.length == 0 && patient.length != 0" style="text-align: center; margin-top: 200px;">Dossier de <span style="color: rgb(82, 73, 65);">{{nomPatient}}</span> est vide</h3>
+                        <h3 *ngIf="patient.length == 0" style="text-align: center; margin-top: 200px;">Dossier non disponible</h3>
+                      </div>
+                        <div style="text-align: center;"><button class="btn btn-link" style="font-size: 30px; margin-top: 70px;" (click)="downloadAsPDF()">Télécharger <i class="bi bi-download"></i></button></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            </div>
+            </div>
+    </div>

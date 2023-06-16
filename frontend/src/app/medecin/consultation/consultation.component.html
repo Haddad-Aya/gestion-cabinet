@@ -1,0 +1,304 @@
+<div class="dashboard">
+  <div class="left">
+
+    <div class="navigation">
+      <div class="wrapper2">
+        <app-essaye></app-essaye>
+      </div>
+    </div>
+  </div>
+  <div class="right-side">
+    <div class="right-header">
+      <app-navbar></app-navbar>
+      <hr class="new-hr">
+      <span><a routerLink="/dashboardMedecin" style="text-decoration: none;">Dashboard </a>/<span
+          style="color: rgb(92, 92, 226);"> Consultation</span></span>
+    </div>
+    <div class="right-body">
+      <div class="message">
+        <div class="mes-date">
+          <div class="container">
+            <div class="my-2" style="text-align: center; padding-bottom: 10px;">
+              <h5>Consultation</h5>
+            </div>
+            <form [formGroup]="formConsultation">
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Evolution</label>
+                <div class="col-sm-10">
+                  <textarea class="form-control" id="" placeholder="Evolution" formControlName="evolution"></textarea>
+                  <div style="color: red;" *ngIf="verifEvolution==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Date consultation</label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="" placeholder="Date consultation"
+                    formControlName="dateConsultation">
+                  <div style="color: red;" *ngIf="verifDateConsultation==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Heure debut</label>
+                <div class="col-sm-10">
+                  <select class="form-select" (change)="getSelectedHeureDebut($event)">
+                    <option [disabled]="true">Choisir</option>
+                    <option *ngFor="let f of vDateDebut" [value]="f.heureD">{{f.heureD}}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Paiment</label>
+                <div class="col-sm-10">
+                  <select class="form-select" (change)="getSelectedPaiment($event)">
+                    <option [disabled]="true">Paiment</option>
+                    <option *ngFor="let p of vPaiment" [value]="p.valeur" style="color: black;">{{p.nom}}</option>
+                  </select>
+                  <div style="color: red;" *ngIf="verifPaiment==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Prix</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="" placeholder="Prix" formControlName="prix">
+                  <div style="color: red;" *ngIf="verifPrix==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Type consultation</label>
+                <div class="col-sm-10">
+                  <select class="form-select" (change)="getSelectedTypeConsultation($event)">
+                    <option [disabled]="true">Type consultation</option>
+                    <option *ngFor="let c of vTypeConsultation" [value]="c.valeur" style="color: black;">{{c.nom}}
+                    </option>
+                  </select>
+                  <div style="color: red;" *ngIf="verifTypeConsultation==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Traitements</label>
+                <div class="col-sm-10">
+                  <button type="button" data-toggle="modal" data-target="#ajoutTraitements"
+                    style="border-style: none;"><span style="color: rgb(52, 52, 192);"
+                      class="bi-plus-square-fill"></span></button><button type="button" data-toggle="modal"
+                    class="btn btn-link" data-target="#afficherOrdonance"
+                    *ngIf="verifOrdonance==true">Ordonance</button>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Fichiers</label>
+                <div class="col-sm-10">
+                  <button type="button" data-toggle="modal" data-target="#ajoutFichiers"
+                    style="border-style: none;"><span style="color: rgb(52, 52, 192);"
+                      class="bi-plus-square-fill"></span></button>
+                </div>
+              </div>
+            </form>
+            <div class="modal-footer">
+              <button type="reset" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+              <button type="button" class="btn btn-primary" (click)="addConsultation()">Valider</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="ajoutTraitements" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Traitemets</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formTraitement">
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-2 col-form-label">Nom traitement</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="" placeholder="Nom traitement" formControlName="nom">
+                <div style="color: red;" *ngIf="verifNom==true">*Champs obligatoire</div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-2 col-form-label">Quantité</label>
+              <div class="col-sm-10">
+                <input type="number" class="form-control" id="" placeholder="Quantité" formControlName="quantite">
+                <div style="color: red;" *ngIf="verifQuantite==true">*Champs obligatoire</div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-2 col-form-label">Effet</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="" placeholder="Effet" formControlName="effet">
+                <div style="color: red;" *ngIf="verifEffet==true">*Champs obligatoire</div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-2 col-form-label">Nombre de fois par jour</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="" placeholder="Nombre de fois par jour"
+                  formControlName="nbrFoisParJour">
+                <div style="color: red;" *ngIf="verifNbrFoisParJour==true">*Champs obligatoire</div>
+              </div>
+            </div>
+            <button (click)="addNewTraitements()" style="
+              border: none;
+              padding: 10px 10px;
+              margin-left: 400px;
+              margin-bottom: 10px;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;">Ajouter</button>
+            <table class="table user-list" *ngIf="affichTabTraitement==true">
+              <thead>
+                <tr>
+                  <th class="text-center"><span>Nom traitement</span></th>
+                  <th class="text-center"><span>Quantite</span></th>
+                  <th class="text-center"><span>Effet</span></th>
+                  <th class="text-center"><span>Nombre de fois par jour</span></th>
+                  <th class="text-center"><span>Acte</span></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let tab of tabTraitement let i=index">
+                <tr>
+                  <td class="text-center">
+                    <span class="label label-default">{{tab.nom}}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label label-default">{{tab.quantite}}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label label-default">{{tab.effet}}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label label-default">{{tab.nbrFoisParJour}}</span>
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-link" (click)="supprimerTraitement(i)">
+                      <span class="label label-default">
+                        Supprimer
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="ajoutFichiers" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Fichiers</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="formFichier">
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-2 col-form-label">Titre fichier</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" id="" placeholder="Titre fichier" formControlName="titre">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="inputPassword3" class="col-sm-2 col-form-label">Fichier</label>
+              <div class="col-sm-10">
+                <input type="file" class="form-control" id="" placeholder="Nom fichier" formControlName="nom">
+              </div>
+            </div>
+            <button (click)="addNewFichiers()" style="
+                  border: none;
+                  padding: 10px 10px;
+                  margin-left: 400px;
+                  margin-bottom: 10px;
+                  border-radius: 4px;
+                  cursor: pointer;
+                  font-size: 16px;">Ajouter</button>
+            <table class="table user-list" *ngIf="affichTabFichier==true">
+              <thead>
+                <tr>
+                  <th class="text-center"><span>Titre Fichier</span></th>
+                  <th class="text-center"><span>Nom</span></th>
+                  <th class="text-center"><span>Acte</span></th>
+                </tr>
+              </thead>
+              <tbody *ngFor="let tab of tabFichier let i=index">
+                <tr>
+                  <td class="text-center">
+                    <span class="label label-default">{{tab.titre}}</span>
+                  </td>
+                  <td class="text-center">
+                    <span class="label label-default">{{tab.nom}}</span>
+                  </td>
+                  <td class="text-center">
+                    <button type="button" class="btn btn-link" (click)="supprimerFichier(i)">
+                      <span class="label label-default">
+                        Supprimer
+                      </span>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="modal fade" id="afficherOrdonance" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+      <div class="modal-content">
+        <span id="pdfOrdonance">
+          <h6 class="modal-title" id="exampleModalLabel">{{nomMedecin}} {{prenomMedecin}}</h6>
+          <h6 class="modal-title" id="exampleModalLabel">DOCTEUR</h6>
+          <h6 class="modal-title" id="exampleModalLabel">Hanen Tamzini</h6>
+          <h6 class="modal-title" id="exampleModalLabel">DIPLOME DE LA FACULTE DE MEDECINE DE TUNIS</h6>
+          <h6 class="modal-title" id="exampleModalLabel">MEDECINE GENERALE</h6>
+          <h6 class="modal-title" id="exampleModalLabel">{{adrMedecin}} - {{codePostalMedecin}}</h6><br><br>
+          <h4 class="modal-title" id="exampleModalLabel" style="text-align: center;">Ordonance Médicale</h4><br>
+          <h6 class="modal-title" id="exampleModalLabel" style="text-align: center;">Djerba le : {{dateAujourd |
+            date:'yyyy-MM-dd'}}</h6>
+
+          <div class="modal-body">
+            <div><b>Id.Cnam : </b><span style="margin-left: 10px;">00{{idCnamPatient}}</span></div>
+            <h6 class="modal-title" id="exampleModalLabel" style="margin-left: 85px;">{{prenomPatient}} {{nomPatient}}
+            </h6><br><br>
+            <div><b>Prescription :</b></div><br>
+            <span *ngFor="let t of tabTraitement let i =index">
+              <div style="margin-top:10px;"><span>{{i+1}} / {{t.nom}}</span><span style="margin-left: 310px;">Qté :
+                  {{t.quantite}} </span></div>
+              <div style="margin-top:10px;">{{t.nbrFoisParJour}}</div>
+              <div style="margin-top:10px;">Effet : {{t.effet}}</div>
+            </span>
+          </div>
+          <hr><span style="margin-left: 40px;">E-mail: {{emailMedecin}}</span><span
+            style="margin-right: 20px;margin-left: 130px;"> Tél : {{telMedecin}}</span>
+        </span>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+          <button type="button" class="btn btn-primary" (click)="downloadAsPDF()">Exporter en pdf</button>
+        </div>
+      </div>
+    </div>
+  </div>

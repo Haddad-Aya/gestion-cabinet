@@ -1,0 +1,25 @@
+<body>
+    <div class="container">
+      <div class=""><h5>Entrer le code de sécurité</h5></div><hr>
+      <div class="content"><br>
+        <span>Merci de vérifier dans vos e-mails que vous avez reçu un message avec votre code. Celui-ci est composé de plus que 6 chiffres.</span>
+            <form [formGroup]="form">
+              <div class="alert alert-danger" role="alert" *ngIf="verifCode==true"><strong>erreur !! </strong> Code saisie est incorrect</div>
+          <div class="user-details">
+            <div class="input-box">
+              <span class="details">Code *</span>
+              <input type="number" class="form-control" placeholder="Code" formControlName="code" (change)="monCode()">
+              <div style="color: red;" *ngIf="champsCode==true">*Champs obligatoire</div>
+              <div style="color: red;" *ngIf="formaCode==true">*Code doit avoir 10 chiffres</div>
+            </div>
+            <!-- Submit button -->
+            <div class="modal-footer" style="margin-top: 25px;">
+              <a routerLink="/MdpOublier" style="color: black;">Code non reçu ?</a>
+                <button type="button" c class="btn btn-secondary" data-dismiss="modal" routerLink="/login" style="margin-left: 180px;">Annuler</button>
+                <button type="button" class="btn btn-primary"  (click)="OnSubmit()" >Continuer</button>
+              </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>

@@ -1,0 +1,380 @@
+<div class="dashboard">
+  <div class="left">
+    
+    <div class="navigation">
+      <div class="wrapper2">
+        <app-essaye></app-essaye>
+      </div>
+    </div>
+  </div>
+  <div class="right-side">
+    <div class="right-header">
+      <app-navbar></app-navbar>
+      <hr class="new-hr">
+      <span><a routerLink="/dashboardMedecin" style="text-decoration: none;">Dashboard </a>/ <a routerLink="/patient" style="text-decoration: none;">Patients</a></span>
+    </div>
+    <div class="right-body">
+      <div class="message">
+        <div class="mes-date">
+                <div class="row">
+                  <div class="my-2">
+                    <h5>Mes patients<button type="button" data-toggle="modal" data-target="#ajoutPatient" style="border-style: none;"><span style="color: rgb(52, 52, 192);" class="bi-plus-square-fill"></span></button></h5>
+                  </div>
+                  <div class="input-group">
+                    <input type="text" class="form-control rounded" placeholder="nom du patient" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="telephoneShearch"/>
+                    <button type="button" class="btn btn-outline-primary" (click)="chercher()">Rechercher</button>
+                    <button class="btn btn-link" (click)="refresh()">Refrécher</button>
+                  </div>
+                    <div class="col-lg-12">
+                      <div class="main-box clearfix">
+                        <div class="table-responsive">
+                          <table class="table user-list">
+                            <thead>
+                              <tr>
+                                <th class="text-center"><span>ID dossier</span></th>
+                                <th class="text-center"><span>Nom et Prenom</span></th>
+                                <th class="text-center"><span>numéro</span></th>
+                                <th class="text-center"><span>Plus</span></th>
+                              </tr>
+                            </thead>
+                            <tbody *ngFor="let patient of patients">
+                              <tr>
+                                <td class="text-center">
+                                  <span class="label label-default">{{patient.id}}</span>
+                                </td>
+                                <td class="text-center">
+                                  <span class="label label-default">{{patient.nom}} {{patient.prenom}}</span>
+                                </td>
+                                <td class="text-center">
+                                  <span class="label label-default">{{patient.telephone}}</span>
+                                </td>
+                                <td class="text-center">
+                                  <button type="button" class="btn btn-link" type="button" routerLink="/historique/{{patient.id}}">
+                                    <span class="label label-default">
+                                      historique
+                                    </span>
+                                  </button>
+                                  <button type="button" class="btn btn-link" type="button" data-toggle="modal" data-target="#modification" (click)="modification(patient)">
+                                    <span class="label label-default">
+                                      <i class="bi bi-pencil-square" style="font-size: 20px; margin-left: 30px;"></i>
+                                    </span>
+                                  </button>
+                                  <button type="button" class="btn btn-link" (click)="archiverPatient(patient.id,patient)">
+                                    <span class="label label-default">
+                                      <i class="bi bi-archive" style="font-size: 20px; margin-left: 30px;"></i>
+                                    </span>
+                                  </button>
+                                  <button type="button" class="btn btn-link" data-toggle="modal" data-target="#rendezVous" (click)="getIdPatient(patient.id)">
+                                    <span class="label label-default">
+                                      <i class="bi bi-calendar-date" style="font-size: 20px; margin-left: 30px;"></i>
+                                    </span>
+                                  </button>
+                                </td>
+                              </tr>
+                            </tbody>
+                            
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  </div>     
+            </div>
+        </div>
+      </div>
+
+      <!--modifier patient-->
+      <div class="modal fade" id="modification" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Modification patient</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+            <div class="alert alert-success" role="alert" *ngIf="verifModifier==true"><strong>BIEN </strong> Le compte est modifier</div>
+            <div class="alert alert-danger" role="alert" *ngIf="verifMail==true"><strong>erreur !! </strong> Email deja utiliser</div>
+            <form [formGroup]="formModif">
+              <div class="form-group row">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Nom <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="" placeholder="Nom" formControlName="nom">
+                  <div style="color: red;" *ngIf="verifNom==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Prenom <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="" placeholder="Prenom" formControlName="prenom">
+                  <div style="color: red;" *ngIf="verifPrenom==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Email <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="" placeholder="Email" formControlName="email">
+                  <div style="color: red;" *ngIf="verifChampsMail==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Telephone <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="tel" class="form-control" id="" placeholder="Telephone" formControlName="telephone">
+                  <div style="color: red;" *ngIf="verifTelephone==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Adresse <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="" placeholder="Adresse" formControlName="adr">
+                  <div style="color: red;" *ngIf="verifAdr==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Code Postal <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="" placeholder="Code Postal" formControlName="codePostal">
+                  <div style="color: red;" *ngIf="verifCodePostal==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Date naissance <span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="" placeholder="Date naissance" formControlName="dateNaissance" >
+                  <div style="color: red;" *ngIf="verifDateNaissance==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">ID CNAM</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="" placeholder="ID CNAM" formControlName="idCnam">
+                </div>
+              </div>
+              <fieldset class="" id="group3">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">Sexe</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <span *ngIf="sexe == 'H' "><input class="form-check-input" checked type="radio" name="group3" id="s1" value="H" (change)="getSelectedSexe($event)"></span>
+                      <span *ngIf="sexe == 'F' "><input class="form-check-input" type="radio" name="group3" id="s1" value="H" (change)="getSelectedSexe($event)"></span>
+                      <label class="form-check-label" for="s1">
+                        Homme
+                      </label>
+                      <span style="margin-left: 100px;">
+                        <span *ngIf="sexe == 'F' "><input class="form-check-input" checked type="radio" name="group3" id="s2" value="F" (change)="getSelectedSexe($event)"></span>
+                        <span *ngIf="sexe == 'H' "><input class="form-check-input" type="radio" name="group3" id="s2" value="F" (change)="getSelectedSexe($event)"></span>
+                      <label class="form-check-label" for="s2">
+                        Femme
+                      </label>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="" id="group1">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">Civilité</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <span *ngIf="civilite == 'MARIEE' "><input class="form-check-input" checked type="radio" name="group1" id="ma" value="MARIEE"  (change)="getSelectedCivilite($event)"></span>
+                      <span *ngIf="civilite == 'CELEBATAIRE' "><input class="form-check-input" checked type="radio" name="group1" id="ma" value="MARIEE"  (change)="getSelectedCivilite($event)"></span>
+                      <label class="form-check-label" for="ma">
+                        Marié
+                      </label>
+                     <span style="margin-left: 116px;">
+                      <span *ngIf="civilite == 'MARIEE' "><input class="form-check-input" type="radio" name="group1" id="celeb" value="CELEBATAIRE" (change)="getSelectedCivilite($event)" ></span>
+                      <span *ngIf="civilite == 'CELEBATAIRE' "><input class="form-check-input" checked type="radio" name="group1" id="celeb" value="CELEBATAIRE" (change)="getSelectedCivilite($event)" ></span>
+                      <label class="form-check-label" for="celeb">
+                        Celebataire
+                      </label>
+                    </span> 
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+            </form>
+          </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+             <button type="button" class="btn btn-primary" (click)="modifier()">Modifier</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+          <!-- Modal ajout patient-->
+    <div class="modal fade" id="ajoutPatient" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Fiche patient</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="alert alert-success" role="alert" *ngIf="valider==true"><strong>BIEN </strong> Votre compte est crier</div>
+            <div class="alert alert-danger" role="alert" *ngIf="egal==true"><strong>erreur !! </strong> Verifier votre mot de passe</div>
+            <div class="alert alert-danger" role="alert" *ngIf="verifMail==true"><strong>erreur !! </strong> Email deja utiliser</div>
+            <form [formGroup]="form">
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Nom<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="" placeholder="Nom" formControlName="nom" required="required">
+                  <div style="color: red;" *ngIf="verifNom==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Prenom<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="" placeholder="Prenom" formControlName="prenom" required="required">
+                  <div style="color: red;" *ngIf="verifPrenom==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Email<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="email" class="form-control" id="" placeholder="Email" formControlName="email" [class.is-invalid] = "form.get('email')?.invalid && form.get('email')?.touched">
+                  <div *ngIf="(email?.invalid && email?.touched) || email?.dirty">
+                    <div style="color: red;" *ngIf="email?.errors?.required" >Primary email is required</div>
+                    <div style="color: red;" *ngIf="email?.errors?.pattern" >Please provide a valid email address</div>
+                  </div>
+                  <div style="color: red;" *ngIf="verifMail==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Telephone<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="tel" class="form-control" id="" placeholder="Telephone" formControlName="telephone" required="required">
+                  <div style="color: red;" *ngIf="verifTelephone==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Adresse<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="text" class="form-control" id="" placeholder="Adresse" formControlName="adr" required="required">
+                  <div style="color: red;" *ngIf="verifAdr==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Code Postal<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="" placeholder="Code Postal" formControlName="codePostal" required="required">
+                  <div style="color: red;" *ngIf="verifCodePostal==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Date naissance<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="date" class="form-control" id="" placeholder="Date naissance" formControlName="dateNaissance" required="required">
+                  <div style="color: red;" *ngIf="verifDateNaissance==true">*Champs obligatoire</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">ID CNSS</label>
+                <div class="col-sm-10">
+                  <input type="number" class="form-control" id="" placeholder="ID CNSS" formControlName="idCnam">
+                </div>
+              </div>
+              <fieldset class="" id="group1">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">Civilité</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="group1" id="ma" value="MARIEE"  (change)="getSelectedCivilite($event)">
+                      <label class="form-check-label" for="ma">
+                        Marié
+                      </label>
+                     <span style="margin-left: 116px;"><input class="form-check-input" type="radio" name="group1" id="celeb" value="CELEBATAIRE" (change)="getSelectedCivilite($event)" >
+                      <label class="form-check-label" for="celeb">
+                        Celebataire
+                      </label>
+                    </span> 
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <fieldset class="" id="group3">
+                <div class="row">
+                  <legend class="col-form-label col-sm-2 pt-0">Sexe</legend>
+                  <div class="col-sm-10">
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="group3" id="s1" value="H" (change)="getSelectedSexe($event)">
+                      <label class="form-check-label" for="s1">
+                        Homme
+                      </label>
+                      <span style="margin-left: 100px;"><input class="form-check-input" type="radio" name="group3" id="s2" value="F" (change)="getSelectedSexe($event)">
+                      <label class="form-check-label" for="s2">
+                        Femme
+                      </label>
+                    </span>
+                    </div>
+                  </div>
+                </div>
+              </fieldset>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Mot de passe<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="password" class="form-control" id="inputPassword3" placeholder="Mot de passe" formControlName="motDePasse" required="required" (change)="motDepassValidation()">
+                  <div style="color: red;" *ngIf="verifMotDePasse==true">*Champs obligatoire</div>
+                  <div style="color: red;" *ngIf="longMdp==true">*mot de passe très court</div>
+                  <div style="color: red;" *ngIf="contenuMdp==true">*mot de passe ne doit pas continir votre nom ou prenom</div>
+                </div>
+              </div>
+              <div class="form-group row">
+                <label for="inputPassword3" class="col-sm-2 col-form-label">Repeter votre mot de passe<span style="color: red;">*</span></label>
+                <div class="col-sm-10">
+                  <input type="password" #confirmPassword class="form-control" id="inputPassword3" placeholder="Repeter votre mot de passe" required="required">
+                  <div style="color: red;" *ngIf="verifConfirmPassword==true">*Champs obligatoire</div>
+                </div>
+              </div> 
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" c class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary" (click)="ajouter()">Valider</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--modal rendez vous -->
+    <div class="modal fade" id="rendezVous" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Rendez-vous</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formRendezVous">
+              <div class="alert alert-danger" role="alert" *ngIf="erreurFormulaire==true"><strong>erreur !! </strong> Formulaire invalid</div>
+              <div class="alert alert-success" role="alert" *ngIf="formulaireValid==true"><strong>BIEN </strong> Rendez vous</div>
+              <div class="form-group">
+                <label for="">Jour</label>
+                <input type="date" class="form-control" name="jour" placeholder="Taper le jour de rendez-vous" formControlName="dateRendezVous">
+                <div style="color: red;" *ngIf="verifDateRendezVous==true">*Champs obligatoire</div>
+              </div>
+              <div class="form-group">
+                <label for="">Heure debut</label>
+                <select class="form-select" (change)="getSelectedHeureDebut($event)">
+                  <option [disabled]="true">Choisir</option>
+                  <option *ngFor="let f of vDateDebut" [value]="f.heureD">{{f.heureD}}</option>
+                </select>
+                <div style="color: red;" *ngIf="verifHeureDebut==true">*Champs obligatoire</div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary" (click)="ajouterRendezVous()">Valider</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
