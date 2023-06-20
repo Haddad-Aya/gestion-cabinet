@@ -26,19 +26,7 @@ export class AuthInterceptor implements HttpInterceptor{
         const token = this.tokenService.getToken()
         this.addToken(request,token)
         return next.handle(request).pipe(
-            catchError(
-                (err:HttpErrorResponse) => {
-                    console.log(err.status)
-                    if(err.status === 401){
-                        this.router.navigate(['/login'])
-                    }
-                 /*   else if(err.status === 403){
-                        this.router.navigate(['/notFount'])
-                    }*/
-                   return throwError("some thing is wrong");
-                }
-                
-            )
+            
         );    
     }
     addToken(request:HttpRequest<any>, token:string|null){

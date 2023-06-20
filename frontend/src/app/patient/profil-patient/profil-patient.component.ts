@@ -48,7 +48,7 @@ export class ProfilPatientComponent implements OnInit {
       motDePasse:new FormControl('', [Validators.required])
     })
   }
-  constructor( private build: FormBuilder, private servicePatient:PatientService,private serviceConsultation:ConsultationService,private serviceToken:TokenService){}
+  constructor( private serviceUtilisateur:UtilisateurService,private build: FormBuilder, private servicePatient:PatientService,private serviceConsultation:ConsultationService,private serviceToken:TokenService){}
 
   motDepassValidation(){
     if(this.mdpForm.value.motDePasse.length < 8){
@@ -71,11 +71,11 @@ export class ProfilPatientComponent implements OnInit {
       this.verifConfirmPassword=true
     }
     if(this.mdpForm.value.motDePasse === this.confirmPassword.nativeElement.value && this.confirmPassword.nativeElement.value !="" && this.mdpForm.valid){
-    /*  this.serviceUtilisateur.updateMdpPatient(this.idPatient,this.mdpForm.value).subscribe((resultData: any) => {
+      this.serviceUtilisateur.updateMdpPatient(this.idPatient,this.mdpForm.value).subscribe((resultData: any) => {
         if(resultData != null)
         this.resultModificationMdp=true
         this.serviceToken.clearToken()
-      });*/
+      });
     }
     else if(this.mdpForm.value.motDePasse !== this.confirmPassword.nativeElement.value){
       this.egal=true
@@ -101,10 +101,26 @@ export class ProfilPatientComponent implements OnInit {
          console.log(this.sexe)
        });  
 }
+modifierProfil(){
+  if(this.coordonnee.valid){
+    this.servicePatient.modifierPatient(this.idPatient,this.coordonnee.value).subscribe((resultData: any) => {
+      if(resultData != null)
+      this.resultModification=true
+      this.serviceToken.clearToken()
+    });
+    console.log(this.coordonnee.value.motDePasse)
+  }
+  else {
+    console.log("erreur")
+    this.erreurModification=true
+  }
+}
 getSelectedSexe(event:any){
-
+  let value = event.target.value;
+  this.coordonnee.get('sexe')?.setValue(value)
 }
 getSelectedCivilite(event:any){
-
+  let value = event.target.value;
+  this.coordonnee.get('civilite')?.setValue(value)
 }
 }

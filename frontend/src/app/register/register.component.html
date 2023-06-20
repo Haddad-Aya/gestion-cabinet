@@ -76,30 +76,40 @@
       <div class="title">Inscription</div>
       <div class="content">
             <form [formGroup]="form">
+              <div class="alert alert-success" role="alert" *ngIf="valider==true"><strong>Bienvenu chère patient </strong></div>
+              <div class="alert alert-danger" role="alert" *ngIf="egal==true"><strong>erreur !! </strong> Verifier votre mot de passe</div>
+              <div class="alert alert-danger" role="alert" *ngIf="remplir==true"><strong>erreur !! </strong> Vueiller remplir tout les champs</div>
+              <div class="alert alert-danger" role="alert" *ngIf="verifMail==true"><strong>erreur !! </strong> Email déja utiliser</div>
           <div class="user-details">
             <div class="input-box">
               <span class="details">Nom *</span>
               <input type="text" placeholder="Taper votre nom" required formControlName="nom">
+              <div style="color: red;" *ngIf="verifNom==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">Prenom *</span>
               <input type="text" placeholder="Taper votre prénom" required formControlName="prenom">
+              <div style="color: red;" *ngIf="verifPrenom==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">Email *</span>
               <input type="email" placeholder="Taper votre email" required formControlName="email">
+              <div style="color: red;" *ngIf="verifChampsMail==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">Numéro telephone *</span>
               <input type="tel" placeholder="Taper votre numéro telephone" required formControlName="telephone">
+              <div style="color: red;" *ngIf="verifTelephone==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">Adresse *</span>
               <input type="text" placeholder="Taper votre adresse" required formControlName="adr">
+              <div style="color: red;" *ngIf="verifAdr==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">Code postal *</span>
               <input type="number" placeholder="Taper votre code postal" required formControlName="codePostal">
+              <div style="color: red;" *ngIf="verifCodePostal==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">ID cnam *</span>
@@ -108,14 +118,19 @@
             <div class="input-box">
               <span class="details">Date naissance *</span>
               <input type="date" required formControlName="dateNaissance">
+              <div style="color: red;" *ngIf="verifDateNaissance==true">*Champs obligatoire</div>
             </div>
             <div class="input-box">
               <span class="details">Mot de passe *</span>
-              <input type="password" placeholder="Taper votre mot de passe" required formControlName="motDePasse">
+              <input type="password" placeholder="Taper votre mot de passe" required formControlName="motDePasse" (change)="motDepassValidation()">
+              <div style="color: red;" *ngIf="verifMotDePasse==true">*Champs obligatoire</div>
+              <div style="color: red;" *ngIf="longMdp==true">*mot de passe très court</div>
+              <div style="color: red;" *ngIf="contenuMdp==true">*mot de passe ne doit pas continir votre nom ou prenom</div>
             </div>
             <div class="input-box">
               <span class="details">Repeter mot de passe</span>
               <input type="password" #confirmPassword placeholder="Repeter votre mot de passe" required>
+              <div style="color: red;" *ngIf="verifConfirmPassword==true">*Champs obligatoire</div>
             </div>
           </div>
           <fieldset class="" id="group3">
@@ -132,7 +147,7 @@
                   <label class="" for="s2">
                     Femme
                   </label>
-     
+                  <div style="color: red;" *ngIf="verifSexe==true">*Champs obligatoire</div>
               </div>
             </div>
           </fieldset>
@@ -149,13 +164,10 @@
                   <label class="" for="celeb">
                     Celebataire
                   </label>
+                  <div style="color: red;" *ngIf="verifCivilite==true">*Champs obligatoire</div>
             </div>
             </div>
           </fieldset>
-          <div class="alert alert-success" role="alert" *ngIf="valider==true"><strong>Bienvenu chère patient </strong></div>
-          <div class="alert alert-danger" role="alert" *ngIf="egal==true"><strong>erreur !! </strong> Verifier votre mot de passe</div>
-          <div class="alert alert-danger" role="alert" *ngIf="remplir==true"><strong>erreur !! </strong> Vueiller remplir tout les champs</div>
-          <div class="alert alert-danger" role="alert" *ngIf="verifMail==true"><strong>erreur !! </strong> Email déja utiliser</div>
           <div class="button">
             <button type="submit" class="btn btn-primary btn-block mb-4" (click)="ajouter()"> 
               S'inscrire

@@ -22,8 +22,9 @@
                   </div>
                   <div class="input-group">
                     <input type="text" class="form-control rounded" placeholder="nom du patient" aria-label="Search" aria-describedby="search-addon" [(ngModel)]="telephoneShearch"/>
-                    <button type="button" class="btn btn-outline-primary" (click)="chercher()">Rechercher</button>
+                    <button type="button" class="btn btn-link" (click)="chercher()">Rechercher</button>
                     <button class="btn btn-link" (click)="refresh()">Refrécher</button>
+                    <button type="button" class="btn btn-link" *ngIf="mailTo == true" data-toggle="modal" data-target="#mailModal" style="border-style: none;">Mail</button>
                   </div>
                     <div class="col-lg-12">
                       <div class="main-box clearfix">
@@ -31,6 +32,7 @@
                           <table class="table user-list">
                             <thead>
                               <tr>
+                                <th class="text-center"></th>
                                 <th class="text-center"><span>ID dossier</span></th>
                                 <th class="text-center"><span>Nom et Prenom</span></th>
                                 <th class="text-center"><span>numéro</span></th>
@@ -39,6 +41,9 @@
                             </thead>
                             <tbody *ngFor="let patient of patients">
                               <tr>
+                                <td class="text-center">
+                                  <input type="checkbox" (click)="checkedMail(patient.email)">
+                                </td>
                                 <td class="text-center">
                                   <span class="label label-default">{{patient.id}}</span>
                                 </td>
@@ -354,6 +359,7 @@
             <form [formGroup]="formRendezVous">
               <div class="alert alert-danger" role="alert" *ngIf="erreurFormulaire==true"><strong>erreur !! </strong> Formulaire invalid</div>
               <div class="alert alert-success" role="alert" *ngIf="formulaireValid==true"><strong>BIEN </strong> Rendez vous</div>
+              <div class="alert alert-danger" role="alert" *ngIf="dateNonDispo==true"><strong>OUPS !! </strong> Date indisponible. Veuillez choisir un autre</div>
               <div class="form-group">
                 <label for="">Jour</label>
                 <input type="date" class="form-control" name="jour" placeholder="Taper le jour de rendez-vous" formControlName="dateRendezVous">
@@ -376,5 +382,36 @@
         </div>
       </div>
     </div>
-
-    
+<!--mailModal-->
+    <div class="modal fade" id="mailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form [formGroup]="formMail">
+              <div class="alert alert-success" role="alert" *ngIf="mailEnvoye==true">Mail envoyé</div>
+              <div class="alert alert-danger" role="alert" *ngIf="mailError==true"><strong>erreur !! </strong> Formulaire invalid</div>
+              <div class="form-group">
+                <label for="recipient-name" class="col-form-label">Objet:</label>
+                <input type="text" class="form-control" id="recipient-name" formControlName="objet">
+                <div style="color: red;" *ngIf="verifObjet==true">*Champs obligatoire</div>
+              </div>
+              <div class="form-group">
+                <label for="message-text" class="col-form-label">Message:</label>
+                <textarea class="form-control" id="message-text" formControlName="message"></textarea>
+                <div style="color: red;" *ngIf="verifMessage==true">*Champs obligatoire</div>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+            <button type="button" class="btn btn-primary" (click)="envoiMail()">Envoyer</button>
+          </div>
+        </div>
+      </div>
+    </div>

@@ -2,6 +2,7 @@ import { Component,ElementRef,OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RendezVous } from 'src/app/classes/RendezVous';
+import { Mail } from 'src/app/classes/Mail';
 import { PatientService } from 'src/app/services/patient.service';
 import { RendezVousService } from 'src/app/services/rendez-vous.service';
 @Component({
@@ -39,14 +40,15 @@ export class PatientComponent implements OnInit {
   patients: any[] = []
   form!: FormGroup
   formModif!: FormGroup
+  formMail!: FormGroup
   nom!: string
   prenom!: string
   //email!: string
   telephone!: number
   codePostal!: number
   dateNaissance!: any
-  civilite!:string
-  sexe!:string
+  civilite!:any
+  sexe!:any
   idCnam!:bigint
   adr!:string
   motDePasse!:string
@@ -70,6 +72,13 @@ export class PatientComponent implements OnInit {
   contenuMdp:boolean=false
   email: any;
   idPatient!:number
+  mailTo:boolean=false
+  mailEnvoye:boolean=false
+  verifObjet:boolean=false
+  verifMessage:boolean=false
+  mailError:boolean=false
+  dateNonDispo:boolean=false
+  listMail:string[]=[]
   ngOnInit(): void {
 
     this.local=JSON.parse(localStorage.getItem("token")!) 
@@ -116,6 +125,10 @@ export class PatientComponent implements OnInit {
       dateRendezVous:['', [Validators.required]],
       heureDebut:['', [Validators.required]]
     })
+    this.formMail = this.build.group({
+      objet:['', [Validators.required]],
+      message:['', [Validators.required]]
+    })
   }
   constructor(private servicePatient:PatientService, private build: FormBuilder,private router: Router, private serviceRendezVous:RendezVousService){}
 
@@ -123,7 +136,7 @@ export class PatientComponent implements OnInit {
     try {
       this.servicePatient.archiverPatient(idPatient,patient).subscribe((resultData: any) => {
         this.patients.splice(this.patients.indexOf(patient), 1);
-       console.log(resultData)
+        this.router.navigateByUrl('/archive')
       });
     }
     catch (error) {
@@ -224,7 +237,10 @@ export class PatientComponent implements OnInit {
       newRendezVous.heureDebut=this.formRendezVous.value.heureDebut
       try {
         this.serviceRendezVous.saveRendezVous(newRendezVous,this.idPatient).subscribe((resultData: any) => {
-          this.formulaireValid=true
+          if(resultData==null){
+            this.dateNonDispo=true
+          }
+          else this.formulaireValid=true
         });
       }
       catch (error) {
@@ -356,6 +372,47 @@ export class PatientComponent implements OnInit {
       console.log("erreur")
     }
   }
-
-  
+  checkedMail(email:string){
+    console.log(email)
+    this.mailTo=true
+    this.listMail.push(email)
+    console.log(this.listMail.length)
+/*for( var i=0 ; i > this.listMail.length ; i++){
+  console.log(this.listMail[i])
+  if(email != this.listMail[i])
+  { this.listMail.push(email)
+   console.log(this.listMail)
+  }
+}*/
+  }
+  verifChampMail(){
+    if(this.formMail.value.objet==""){
+      this.verifObjet=true
+    }
+    if(this.formMail.value.message==""){
+      this.verifMessage=true
+    }
+  }
+  envoiMail(){
+    console.log(this.listMail)
+    this.verifChampMail()
+    if(this.formMail.valid){
+      let mail = new Mail()
+      mail.objet=this.formMail.value.objet
+      mail.message=this.formMail.value.message
+      mail.listMail=this.listMail
+      try {
+        this.servicePatient.sendListMail(mail).subscribe((resultData: any) => {
+          this.mailEnvoye=true
+          this.listMail.splice(0,this.listMail.length)
+          this.mailTo=false
+        });
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+    else this.mailError=true
+    this.mailEnvoye=false
+  }
 }

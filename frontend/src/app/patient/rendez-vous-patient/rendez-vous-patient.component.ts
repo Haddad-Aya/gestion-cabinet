@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RendezVous } from 'src/app/classes/RendezVous';
 import { PatientService } from 'src/app/services/patient.service';
 import { RendezVousService } from 'src/app/services/rendez-vous.service';
 
@@ -38,6 +39,7 @@ export class RendezVousPatientComponent implements OnInit {
   formulaireValid: boolean = false
   verifDisponibilite: boolean = false
   rendezVousModifier: boolean = false
+  dateNonDispo: boolean = false
   rendezVous: any[] = []
   enAttente: boolean = false
   dateShearch!:any
@@ -177,4 +179,30 @@ export class RendezVousPatientComponent implements OnInit {
       //}
     }
   }
+  ajouterRendezVous(){
+    if(this.formRendezVous.value.dateRendezVous==""){
+      this.verifDateRendezVous=true
+    }
+    if(this.formRendezVous.value.heureDebut==""){
+      this.verifHeureDebut=true
+    }
+    if(this.formRendezVous.valid){
+      let newRendezVous=new RendezVous()
+      newRendezVous.dateRendezVous=this.formRendezVous.value.dateRendezVous
+      newRendezVous.heureDebut=this.formRendezVous.value.heureDebut
+      try {
+        this.serviceRendezVous.saveRendezVous(newRendezVous,this.idPatient).subscribe((resultData: any) => {
+          if(resultData==null){
+            this.dateNonDispo=true
+          }
+          else
+          this.formulaireValid=true
+        });
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+    else this.erreurFormulaire=true
+    }
 }

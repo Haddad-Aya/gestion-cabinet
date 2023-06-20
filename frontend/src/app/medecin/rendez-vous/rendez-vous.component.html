@@ -19,7 +19,7 @@
       <div class="message">
         <div class="mes-date"> 
           <div class="my-2">
-            <h5>Mes rendezs-vous<button type="button" data-toggle="modal" data-target="#ajoutRendezVous" style="border-style: none;"><span style="color: rgb(52, 52, 192);" class="bi-plus-square-fill"></span></button></h5>
+            <h5>Mes rendez-vous<button type="button" data-toggle="modal" data-target="#ajoutRendezVous" style="border-style: none;"><span style="color: rgb(52, 52, 192);" class="bi-plus-square-fill"></span></button></h5>
           </div>
           <div class="event-schedule-area-two bg-color pad100">
             <div class="input-group">
@@ -159,6 +159,55 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
         <button type="button" class="btn btn-primary" (click)="modifier()">Valider</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--modal ajouter rendez vous -->
+<div class="modal fade" id="ajoutRendezVous" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Rendez-vous</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="formRendezVous">
+          <div class="alert alert-danger" role="alert" *ngIf="erreurFormulaire==true"><strong>erreur !! </strong> Formulaire invalid</div>
+          <div class="alert alert-danger" role="alert" *ngIf="dateNonDispo==true"><strong>OUPS !! </strong> Date indisponible. Veuillez choisir un autre</div>
+          <div class="alert alert-success" role="alert" *ngIf="formulaireValid==true">Vous avez ajouter un rendez-vous</div>
+              <div class="form-group">
+                <label for="">Patient </label>
+                <select class="form-control" (change)="getSelectedPatient($event)">
+                  <option [disabled]="true">Patient</option>
+                  <option *ngFor="let list of listPatient" [value]="list.id" style="color: black;">
+                    {{list.id}} 
+                    {{list.nom}}
+                    {{list.prenom}}--{{list.telephone}}</option>
+                </select>
+                <div style="color: red;" *ngIf="verifPatient==true">*Champs obligatoire</div>
+              </div>
+          <div class="form-group">
+            <label for="">Jour</label>
+            <input type="date" class="form-control" name="jour" placeholder="Taper le jour de rendez-vous" formControlName="dateRendezVous">
+            <div style="color: red;" *ngIf="verifDateRendezVous==true">*Champs obligatoire</div>
+          </div>
+          <div class="form-group">
+            <label for="">Heure debut</label>
+            <select class="form-select" (change)="getSelectedHeureDebut($event)">
+              <option [disabled]="true">Choisir</option>
+              <option *ngFor="let f of vDateDebut" [value]="f.heureD">{{f.heureD}}</option>
+            </select>
+            <div style="color: red;" *ngIf="verifHeureDebut==true">*Champs obligatoire</div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+        <button type="button" class="btn btn-primary" (click)="ajouterRendezVous()">Valider</button>
       </div>
     </div>
   </div>

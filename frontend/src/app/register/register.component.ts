@@ -22,6 +22,8 @@ export class RegisterComponent implements OnInit {
   nom!: string
   prenom!: string
   email!: string
+  civilite!: string
+  sexe!: string
   telephone!: number
   motDePasse!: string
   adr!: string
@@ -43,6 +45,8 @@ export class RegisterComponent implements OnInit {
   verifDateNaissance: boolean = false
   longMdp:boolean=false
   contenuMdp:boolean=false
+  verifCivilite:boolean=false
+  verifSexe:boolean=false
   resultaEmail:any
   constructor(private servicePatient: PatientService,private serviceUtilisateur: UtilisateurService, private build: FormBuilder,public router: Router,private serviceToken:TokenService){
 
@@ -90,8 +94,14 @@ export class RegisterComponent implements OnInit {
     if(this.form.value.motDePasse==""){
       this.verifMotDePasse=true
     }
-    if(this.confirmPassword==null ){
+    if(this.confirmPassword.nativeElement.value== "" ){
       this.verifConfirmPassword=true
+    }
+    if(this.civilite == null){
+      this.verifCivilite=true
+    }
+    if(this.sexe == null){
+      this.verifSexe=true
     }
   }
   motDepassValidation(){
@@ -108,11 +118,13 @@ export class RegisterComponent implements OnInit {
   getSelectedCivilite(event: any){
     let civilite = event.target.value;
     this.form.get('civilite')?.setValue(civilite)
+    this.civilite=civilite
   }
 
   getSelectedSexe(event: any){
     let sexe = event.target.value;
    this.form.get('sexe')?.setValue(sexe)
+   this.sexe=event
   }
   ajouter() {
     this.verifierLesChamps()
@@ -166,6 +178,7 @@ export class RegisterComponent implements OnInit {
     }
     else if(this.form){
       console.log("erreur")
+      this.remplir=true
     }
   }
 }

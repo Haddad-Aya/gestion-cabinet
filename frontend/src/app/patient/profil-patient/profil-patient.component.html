@@ -14,7 +14,7 @@
       <div class="right-bottom">
       </div>
     </div>
-    <span><a routerLink="/dashboardHomePatient" style="text-decoration: none;">Dashboard </a>/ <a routerLink="/profilPatient"
+    <span><a routerLink="/profilPatient"
         style="text-decoration: none;"> Profil</a></span>
     <div class="right-body">
       <div class="message">
@@ -139,7 +139,7 @@
                                 <input type="text" class="form-control" placeholder="ID cnam" formControlName="idCnam">
                               </div>
                               <div class="gap-6 d-md-flex justify-content-md-center" style="padding-top: 35px;">
-                                <button type="button" class="btn btn-primary " >Confirmer les
+                                <button type="button" class="btn btn-primary " (click)="modifierProfil()">Confirmer les
                                   modifications</button>
                               </div>
                             </div> <!-- Row END -->

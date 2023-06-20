@@ -19,7 +19,7 @@ export class ArchiveComponent implements OnInit {
     try {
       this.servicePatient.desArchiverPatient(idPatient,patient).subscribe((resultData: any) => {
         this.patients.splice(this.patients.indexOf(patient), 1);
-       console.log(resultData)
+        this.router.navigateByUrl('/patient')
       });
     }
     catch (error) {

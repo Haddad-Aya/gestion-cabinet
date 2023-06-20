@@ -48,6 +48,9 @@ export class UtilisateurService {
   updateMdpMedecin(idMedecin:number, newMedecin:any): Observable<any> {
     return this.http.put('http://localhost:8085/api/admin/medecin/updateMdpMedecin' +'/'+ idMedecin,newMedecin)
   }
+  updateMdpPatient(idPatient:number, newPatient:any): Observable<any> {
+    return this.http.put('http://localhost:8085/api/admin/patient/updateMdpPatient' +'/'+ idPatient,newPatient)
+  }
   sendMail(email: string): Observable<any> {
     return this.http.post('http://localhost:8085/auth/sendMail',email)
   }

@@ -2,9 +2,8 @@ import { Component,ElementRef,OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UtilisateurService } from 'src/app/services/utilisateur.service';
-import {formatDate} from '@angular/common';
 import { StatistiqueService } from 'src/app/services/statistique.service';
-import { patient } from 'src/app/classes/patient';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-dashboard-home',
@@ -17,43 +16,41 @@ export class DashboardHomeComponent implements OnInit {
   sommeConsultation!:any
   nbrVisite!:any
   beneficeNet!:any
-  @ViewChild('confirmPassword', { static: false })
-  confirmPassword!: ElementRef;
-  valider: boolean = false
-  remplir: boolean = false
-  egal: boolean = false
-  verifMail: boolean = false
 
-  form!: FormGroup
-  nom!: string
-  prenom!: string
-  email!: string
-  telephone!: number
-  codePostal!: number
-  dateNaissance!: Date
-  civilite!:any
-  sexe!:any
-  CNSS!:number
-  adresse!:string
-  motDePasse!: string
-  vMotDePasse!: string
-  medecin!:any
+  nbrConsultationPaye!:number
+  nbrConsultationNonPaye!:number
+  nbrConsultationGratuit!:number
+
+  nbrTotalPatient!:number
+  nbrFemme!:number
+  nbrHomme!:number
+
+  nbrRendezVousRealiser!:number
+  nbrRendezVousAnnuler!:number
+   // Doughnut
+   public doughnutChartLabels: string[] = [ 'Rémunération des visites', 'Les dépenses' ];
+   public doughnutChartDatasets: ChartConfiguration<'doughnut'>['data']['datasets'] = [
+       { data: [ 10000, 3000 ], label: 'Series A' }
+     ];
+ 
+   public doughnutChartOptions: ChartConfiguration<'doughnut'>['options'] = {
+     responsive: false
+   };
   ngOnInit(): void {
+   this.getNbrConsultationPaye()
+   this.getNbrConsultationNonPaye()
+   this.getNbrConsultationGratuit()
 
-    this.verif=JSON.parse(localStorage.getItem("token")!) 
-   let idMedecin=this.verif.id
-   //console.log(idMedecin)
-  /*  try {
-      this.serviceUtilisateur.getMedecin(idMedecin).subscribe((resultData: any) => {
-        this.medecin = resultData
-        this.nom=resultData.nom
-        this.prenom=resultData.prenom
-        console.log(this.medecin)
-      });
-    }
-    catch (error) {
-      console.log(error)
-    }*/
+   this.getNbrTotalPatient()
+   this.getNbrHomme()
+   this.getNbrFemme()
+
+   this.getNbrRendezVousAnnuler()
+   this.getNbrRendezVousRealiser()
+
+   this.getBenificeNet()
+   this.getSommeConsultation()
+   this.getSommeFacture()
   //  this.getStatistiqueDeJour()
   }
   constructor(private serviceStatistique:StatistiqueService,private serviceUtilisateur:UtilisateurService,private router: Router){}
@@ -104,44 +101,120 @@ export class DashboardHomeComponent implements OnInit {
   }
 
   }*/
-
- /* getSelectedCivilite(event: any){
-    let civilite = event.target.value;
-    //console.log(this.civilite)
-    this.form.get('civilite')?.setValue(civilite)
+//statistique les consultation
+  getNbrConsultationPaye(){
+    try {
+      this.serviceStatistique.getNbrConsultationPaye().subscribe((resultData: any) => {
+        this.nbrConsultationPaye=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+  getNbrConsultationNonPaye(){
+    try {
+      this.serviceStatistique.getNbrConsultationNonPaye().subscribe((resultData: any) => {
+        this.nbrConsultationNonPaye=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+  getNbrConsultationGratuit(){
+    try {
+      this.serviceStatistique.getNbrConsultationGratuit().subscribe((resultData: any) => {
+        this.nbrConsultationGratuit=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
   }
 
-  getSelectedSexe(event: any){
-    let sexe = event.target.value;
-   // console.log(this.sexe)
-   this.form.get('sexe')?.setValue(sexe)
+  //statistique des patient
+  getNbrFemme(){
+    try {
+      this.serviceStatistique.getNbrFemme().subscribe((resultData: any) => {
+        this.nbrFemme=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+  getNbrTotalPatient(){
+    try {
+      this.serviceStatistique.getNbrTotalPatient().subscribe((resultData: any) => {
+        this.nbrTotalPatient=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+  getNbrHomme(){
+    try {
+      this.serviceStatistique.getNbrHomme().subscribe((resultData: any) => {
+        this.nbrHomme=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
   }
 
-  ajouter(){
-   // if ( this.form.value.motDePasse === this.confirmPassword.nativeElement.value) {
-  /*    var user = new patient
-          user.nom = this.form.value.nom,
-          user.prenom = this.form.value.prenom,
-          user.email = this.form.value.email,
-          user.telephone = this.form.value.telephone,
-          user.adr = this.form.value.adresse,
-          user.civilite=this.form.value.civilite,
-          user.cnss=this.form.value.CNSS,
-          user.dateNaissance=this.form.value.dateNaissance,
-          user.motDePasse=this.form.value.motDePasse,
-          user.sexe=this.form.value.sexe,
-          user.codePostal=this.form.value.codePostal
-console.log(this.civilite)
-console.log(user.sexe)
-console.log(user.cnss)*/
-  /*        this.serviceUtilisateur.newPatient(this.form.value).subscribe((result: any) => {
-            console.log(result);
-            this.valider = true
-            this.egal = false
-            this.valider = false
-            this.verifMail = false
-          })
-   // }
-  }*/
+  getNbrRendezVousAnnuler(){
+    try {
+      this.serviceStatistique.getNbrRendezVousAnnuler().subscribe((resultData: any) => {
+        this.nbrRendezVousAnnuler=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+  getNbrRendezVousRealiser(){
+    try {
+      this.serviceStatistique.getNbrRendezVousRealiser().subscribe((resultData: any) => {
+        this.nbrRendezVousRealiser=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
 
+  getBenificeNet(){
+    try {
+      this.serviceStatistique.getBenificeNet().subscribe((resultData: any) => {
+        this.beneficeNet=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+
+  getSommeFacture(){
+    try {
+      this.serviceStatistique.getSommeFacture().subscribe((resultData: any) => {
+        this.sommeFacture=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
+  getSommeConsultation(){
+    try {
+      this.serviceStatistique.getSommeConsultation().subscribe((resultData: any) => {
+        this.sommeConsultation=resultData;
+      });
+    }
+    catch (error) {
+      console.log(error)
+  }
+  }
 }

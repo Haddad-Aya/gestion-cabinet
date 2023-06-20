@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { RendezVous } from 'src/app/classes/RendezVous';
 import { PatientService } from 'src/app/services/patient.service';
 import { RendezVousService } from 'src/app/services/rendez-vous.service';
 
@@ -38,8 +39,12 @@ export class RendezVousComponent implements OnInit {
   formulaireValid: boolean = false
   verifDisponibilite: boolean = false
   rendezVousModifier: boolean = false
+  verifPatient: boolean = false
+  dateNonDispo: boolean = false
+  listPatient: any[] = []
   rendezVous: any[] = []
   nameShearch!: any
+  idPatientC!: any
   enAttente: boolean = false
   constructor(private servicePatient: PatientService, private serviceRendezVous: RendezVousService, private router: Router, private build: FormBuilder) { }
   ngOnInit(): void {
@@ -59,9 +64,15 @@ export class RendezVousComponent implements OnInit {
     catch (error) {
       console.log(error)
     }
+    try{
+      this.servicePatient.getPatientsNonArchiver().subscribe((resultData: any) => {
+        this.listPatient=resultData
+      })
+          }
+          catch(error){
+            console.log(error)
+          }
   }
-
-
 
   getRendezVousAnnuler() {
     try {
@@ -178,4 +189,40 @@ export class RendezVousComponent implements OnInit {
       //}
     }
   }
+  getSelectedPatient(event:any){
+    let value = event.target.value;
+    console.log(value)
+    this.idPatientC=value
+    console.log(this.idPatientC)
+  }
+  ajouterRendezVous(){
+    if(this.idPatientC==null){
+      this.verifPatient=true
+    }
+    if(this.formRendezVous.value.dateRendezVous==""){
+      this.verifDateRendezVous=true
+    }
+    if(this.formRendezVous.value.heureDebut==""){
+      this.verifHeureDebut=true
+    }
+    if(this.formRendezVous.valid){
+      let newRendezVous=new RendezVous()
+      newRendezVous.dateRendezVous=this.formRendezVous.value.dateRendezVous
+      newRendezVous.heureDebut=this.formRendezVous.value.heureDebut
+      try {
+        this.serviceRendezVous.saveRendezVous(newRendezVous,this.idPatientC).subscribe((resultData: any) => {
+          if(resultData==null){
+            this.dateNonDispo=true
+          }
+          else
+          this.formulaireValid=true
+        });
+      }
+      catch (error) {
+        console.log(error)
+      }
+    }
+    else this.erreurFormulaire=true
+    }
+
 }

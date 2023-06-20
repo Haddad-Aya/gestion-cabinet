@@ -18,7 +18,8 @@ export class LoginComponent implements OnInit {
   token!:string
   invalid:boolean=false
   remplir:boolean=false
-
+  verifEmail:boolean=false
+  verifMotDePasse:boolean=false
   constructor(private serviceToken:TokenService,private serviceUtilisateur:UtilisateurService, public router : Router) {
     
     }
@@ -29,10 +30,14 @@ export class LoginComponent implements OnInit {
     })
   }
   OnSubmit(){
-
-    if(this.form.value){
+    if(this.form.value.email==""){
+      this.verifEmail=true
+    }
+    if(this.form.value.motDePasse==""){
+      this.verifMotDePasse=true
+    }
+    if(this.form.valid){
       this.serviceUtilisateur.login(this.form.value).subscribe(res =>{
-
         this.serviceToken.saveToken(res.accessToken)
         this.serviceToken.saveRole(res.role)
         this.serviceToken.saveRefreshToken(res.refreshToken)
@@ -43,12 +48,13 @@ export class LoginComponent implements OnInit {
           this.router.navigateByUrl('/dashboardMedecin')
         }
         else if(role === 'USER'){
-          this.router.navigateByUrl("/dashboardHomePatient")
+          this.router.navigateByUrl("/monMedecin")
       }
-
+      
     })
+     this.invalid=true
     }
-
+    else this.remplir=true
 }
 
 }

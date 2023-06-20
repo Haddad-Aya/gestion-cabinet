@@ -1,4 +1,4 @@
 export class Fichier{
      titre!:string
-     nom!:string
+     nom!:any[]
 }

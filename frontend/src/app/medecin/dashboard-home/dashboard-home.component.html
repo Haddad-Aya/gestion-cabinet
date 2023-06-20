@@ -1,36 +1,207 @@
-  <div class="dashboard">
-    <div class="left">
-      
-      <div class="navigation">
-        <div class="wrapper2">
-          <app-essaye></app-essaye>
-        </div>
+<div class="dashboard" style="color: #858796;
+
+background-color: #fff;">
+  <div class="left">
+
+    <div class="navigation">
+      <div class="wrapper2">
+        <app-essaye></app-essaye>
       </div>
     </div>
-    <div class="right-side">
-      <div class="right-header">
-        <app-navbar></app-navbar>
-        <hr class="new-hr">
-        <div class="right-bottom">
-        </div>
+  </div>
+  <div class="right-side">
+    <div class="right-header">
+      <app-navbar></app-navbar>
+      <hr class="new-hr">
+      <div class="right-bottom">
       </div>
-      <div class="right-body">
-        <div class="message">
-          <div class="mes-date">
-            <div class="container">
-              <div class="row">
-                <div class="col-lg-12">
-                  <div class="main-box clearfix">
-                    <div class="table-responsive">
-                      <app-body-calendrier></app-body-calendrier>
-                    </div>
+    </div>
+
+    <div class="">
+      <div class="container-fluid">
+        <div class="row">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-3">
+          <h5 class="h4 mb-0">Statistiques</h5>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+          <div class="card border-left-primary shadow h-150 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Les rémunérations</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{sommeConsultation}}</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+          <div class="card border-left-primary shadow h-150 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Les dépenses</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{sommeFacture}}</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-xl-3 col-md-6 mb-3">
+          <div class="card border-left-primary shadow h-150 py-2">
+            <div class="card-body">
+              <div class="row no-gutters align-items-center">
+                <div class="col mr-2">
+                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                    Bénifice net</div>
+                  <div class="h5 mb-0 font-weight-bold text-gray-800">{{beneficeNet}}</div>
+                </div>
+                <div class="col-auto">
+                  <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </div>
+
+
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-3">
+          <h5 class="h4 mb-0">Patients</h5>
+        </div>
+
+        <div class="row">
+
+
+          <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card border-left-primary shadow h-150 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      Total</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrTotalPatient}}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
+
+
+          <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card border-left-success shadow h-150 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                      Femme</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrFemme}}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+
+
+          <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card border-left-warning shadow h-150 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      Homme</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrHomme}}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  </div>
+                </div>
               </div>
-            
-    
+            </div>
           </div>
         </div>
       </div>
+      <div class="row">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-3">
+          <h5 class="h4 mb-0 ">Consultations</h5>
+        </div>
+
+        <div class="row">
+
+
+          <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card border-left-primary shadow h-200 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                      Payé</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrConsultationPaye}}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card border-left-success shadow h-200 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                      Non payé</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrConsultationNonPaye}}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="col-xl-3 col-md-6 mb-3">
+            <div class="card border-left-warning shadow h-200 py-2">
+              <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                  <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                      Gratuit</div>
+                    <div class="h5 mb-0 font-weight-bold text-gray-800">{{nbrConsultationGratuit}}</div>
+                  </div>
+                  <div class="col-auto">
+                    <i class="fas fa-comments fa-2x text-gray-300"></i>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+  </div>
+</div>

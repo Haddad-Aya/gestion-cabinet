@@ -212,7 +212,8 @@ export class ProfilComponent implements OnInit {
          this.coordonnee.get('nomCabinet')?.setValue(this.medecin.nomCabinet)
 
        });
-    
+      
+      
 }
 modification(h:any){
   this.jour=h.jour

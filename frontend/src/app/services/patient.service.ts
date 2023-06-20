@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { BehaviorSubject, Observable, of, tap } from 'rxjs';
+import { Mail } from '../classes/Mail';
 
 
 @Injectable({
@@ -54,5 +55,8 @@ export class PatientService {
 
   modifierPatient(idPatient:number,patient:any): Observable<any> {
     return this.http.put('http://localhost:8085/api/admin/mesPatients/updatePatient'+"/"+idPatient,patient)
+  }
+  sendListMail(mail:Mail): Observable<any> {
+    return this.http.post('http://localhost:8085/api/admin/mesPatients/sendEmail',mail)
   }
 }

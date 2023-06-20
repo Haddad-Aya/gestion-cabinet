@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-//import { ChartConfiguration } from 'chart.js';
+import { ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-left',
@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./left.component.css']
 })
 export class LeftComponent {
- /* title = 'ng2-charts-demo';
+  title = 'ng2-charts-demo';
 
   // Doughnut
   public doughnutChartLabels: string[] = [ 'Rémunération des visites', 'Les dépenses' ];
@@ -20,5 +20,5 @@ export class LeftComponent {
   };
 
   constructor() {
-  }*/
+  }
 }

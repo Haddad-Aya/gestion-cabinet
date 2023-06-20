@@ -3,14 +3,18 @@
     <div class="title">Connexion</div>
     <div class="content">
           <form [formGroup]="form" (ngSubmit)="OnSubmit()">
+            <div class="alert alert-danger" role="alert" *ngIf="invalid==true">Email ou mot de passe incorrect</div>
+            <div class="alert alert-danger" role="alert" *ngIf="remplir==true">Vous devrez saisir votre email et mot de passe</div>
         <div class="user-details">
           <div class="input-box">
             <span class="details">Email *</span>
             <input type="email" class="form-control" placeholder="Email" formControlName="email">
+            <div style="color: red;" *ngIf="verifEmail==true">*Champs obligatoire</div>
           </div>
           <div class="input-box">
             <span class="details">Mot de passe *</span>
             <input type="password" id="form3Example4" class="form-control" placeholder="Mot de passe" formControlName="motDePasse">
+            <div style="color: red;" *ngIf="verifMotDePasse==true">*Champs obligatoire</div>
           </div>
           <!-- Submit button -->
           <button type="submit" class="btn btn-primary btn-block mb-4">
